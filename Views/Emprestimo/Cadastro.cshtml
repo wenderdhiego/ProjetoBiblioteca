@@ -29,14 +29,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="Emprestimo.LivroId">Livro</label>
-                <select asp-for="Emprestimo.LivroId" class="form-control" required>
+                <select asp-for="Emprestimo.LivroId" class="form-control" name = "Emprestimo.LivroId" required>
+                    
                     @foreach(Livro l in Model.Livros)
                     {
+                        <option value=""></option>
                         <option value="@l.Id">@l.Titulo</option>
                     }
+                    
                 </select>
             </div>
         </fieldset>
-        <input type="submit" value="Salvar" class="btn btn-primary"/>
+        
+       <input type="submit" value="Salvar" class="btn btn-primary"/>
+        
     </form>
 </div>
