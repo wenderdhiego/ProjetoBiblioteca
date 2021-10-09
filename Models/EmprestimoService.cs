@@ -29,12 +29,61 @@ namespace Biblioteca.Models
                 bc.SaveChanges();
             }
         }
-
+/*
         public ICollection<Emprestimo> ListarTodos(FiltrosEmprestimos filtro)
         {
             using(BibliotecaContext bc = new BibliotecaContext())
             {
                 return bc.Emprestimos.Include(e => e.Livro).ToList();
+            }
+        }
+*/
+        public ICollection<Emprestimo> ListarTodos(FiltrosEmprestimos filtro = null)
+        {
+            using(BibliotecaContext bc = new BibliotecaContext())
+            {
+                IQueryable<Emprestimo> query;
+                
+                if(filtro != null)
+                {
+                    //definindo dinamicamente a filtragem
+                    switch(filtro.TipoFiltro)
+                    {
+                        case "Usuario":
+                            query = bc.Emprestimos.Where(l => l.NomeUsuario.Contains(filtro.Filtro));
+                        break;
+
+                        case "Livro":
+                            List<Livro> LivrosFiltrados = bc.Livros.Where(l => l.Titulo.Contains(filtro.Filtro)).ToList();
+
+                            List<int> LivroIds = new List<int>();
+                            for (int i =0; i < LivrosFiltrados.Count; i++){
+                                LivroIds.Add(LivrosFiltrados[i].Id);
+                            }
+
+                            query = bc.Emprestimos.Where(l => LivroIds.Contains(l.LivroId));
+                            var debug = query.ToList();
+                        break;
+
+                        default:
+                            query = bc.Emprestimos;
+                        break;
+                    }
+                }
+                else
+                {
+                    // caso filtro não tenha sido informado
+                    query = bc.Emprestimos;
+                }
+                
+                List<Emprestimo>ListaQuery = query.OrderBy(l => l.DataEmprestimo).ToList();
+
+                for(int i = 0; i < ListaQuery.Count; i++){
+                    ListaQuery[i].Livro = bc.Livros.Find(ListaQuery[i].LivroId);
+                }
+                
+                return ListaQuery;
+                
             }
         }
 
