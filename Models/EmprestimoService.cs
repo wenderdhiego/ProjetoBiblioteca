@@ -29,15 +29,7 @@ namespace Biblioteca.Models
                 bc.SaveChanges();
             }
         }
-/*
-        public ICollection<Emprestimo> ListarTodos(FiltrosEmprestimos filtro)
-        {
-            using(BibliotecaContext bc = new BibliotecaContext())
-            {
-                return bc.Emprestimos.Include(e => e.Livro).ToList();
-            }
-        }
-*/
+
         public ICollection<Emprestimo> ListarTodos(FiltrosEmprestimos filtro = null)
         {
             using(BibliotecaContext bc = new BibliotecaContext())
