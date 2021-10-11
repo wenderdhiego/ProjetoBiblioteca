@@ -50,7 +50,7 @@ namespace Biblioteca.Controllers
             }
 
             ViewData["livrosPorPagina"] = (string.IsNullOrEmpty(itensPorPagina) ? 10 : Int32.Parse(itensPorPagina));
-
+            ViewData["PaginaAtual"] = (PaginaAtual != 0 ? PaginaAtual : 1);
 
             LivroService livroService = new LivroService();
             return View(livroService.ListarTodos(objFiltro));
