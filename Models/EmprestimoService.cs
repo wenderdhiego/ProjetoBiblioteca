@@ -79,7 +79,7 @@ namespace Biblioteca.Models
             }
         }
 
-         public ICollection<Emprestimo> ListarDisponiveis()
+         public ICollection<Livro> ListarDisponiveis()
         {
             using(BibliotecaContext bc = new BibliotecaContext())
             {
